@@ -1,0 +1,27 @@
+image: node:latest
+
+stages:
+  - test
+
+before_script:
+  - npm ci
+
+Test HTML5 Validation:
+ stage: test
+ script:
+ - npm run test:html5
+
+Test Javascript:
+  stage: test
+  script:
+    - npm run test:standardjs
+
+Test EditorConfig:
+  stage: test
+  script:
+    - npm run test:editorconfig
+
+Test postCSS:
+  stage: test
+  script:
+    - npm run test:css

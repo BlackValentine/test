@@ -1,0 +1,268 @@
+@use postcss-extend;
+@use postcss-mixins;
+@use postcss-color-function;
+@use postcss-nested;
+@use postcss-custom-media;
+@use postcss-simple-vars;
+
+/** variables.css **/
+:root {
+  --body-font: 'Open Sans', Arial, Helvetica, sans-serif;
+
+  /* Padding */
+  --padding: 20px;
+  --paddingXS: 30px;
+  --paddingM: 50px;
+
+  /* Breakpoints */
+  --xxs: 445px;
+  --xs: 625px;
+  --s: 768px;
+  --ms: 840px;
+  --m: 960px;
+  --ml: 1160px;
+  --l: 1290px;
+  --xl: 1440px;
+  --xxl: 1800px;
+
+  /* Colors */
+  --black: #000;
+  --white: #fff;
+  --primary: #3f3b82;
+
+  /* Borders */
+  --border: 1px solid var(--black);
+
+  /* Transitions */
+  --duration: 0.25s;
+  --speed: 200ms;
+  --ease: ease-in-out;
+
+  /* Grids */
+  --gutter-sm: 10px;
+  --gutter-lg: 20px;
+
+  /* Header */
+  --h-height: 57px;
+  --h-height-lg: 83px;
+}
+
+/* Breakpoint Queries */
+@custom-media --xxs (min-width: 445px);
+@custom-media --xs (min-width: 625px);
+@custom-media --s (min-width: 768px);
+@custom-media --ms (min-width: 840px);
+@custom-media --m (min-width: 960px);
+@custom-media --ml (min-width: 1160px);
+@custom-media --l (min-width: 1290px);
+@custom-media --xl (min-width: 1440px);
+@custom-media --xxl (min-width: 1600px);
+
+/** Helpers **/
+@define-mixin ratio $ratio: 1 {
+  &::before {
+    content: '';
+    display: block;
+    padding-bottom: calc($ratio * 100%);
+  }
+}
+
+@define-mixin transition $attribute: all, $duration: var(--duration), $type: var(--ease) {
+  transition: $attribute $duration $type;
+}
+
+@define-mixin fade-in {
+  opacity: 1;
+  visibility: visible;
+}
+
+@define-mixin fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.fade-in {
+  @mixin fade-in;
+}
+
+.fade-out {
+  @mixin fade-out;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.section {
+  margin-top: 40px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.section--with-bg {
+  padding: 40px 0;
+}
+
+.bg-primary {
+  background: var(--primary);
+}
+
+.c-white {
+  color: var(--white);
+}
+
+/** typography.css **/
+
+::selection {
+  background: var(--black);
+  color: var(--white);
+}
+
+@define-mixin p {
+  font-family: var(--body-font);
+  font-size: 100%;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  @mixin p;
+
+  color: var(--black);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+p,
+input,
+select {
+  @mixin p;
+}
+
+.h2 {
+  font-size: 1.4rem;
+  line-height: 1.35;
+
+  @media (--m) {
+    font-size: 1.6rem;
+  }
+}
+
+/** Module **/
+
+.welcome__inner {
+  position: relative;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.welcome__headline {
+  margin-bottom: 10px;
+
+  @media (--m) {
+    margin-bottom: 20px;
+  }
+}
+
+.welcome__button {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  background: none;
+  border: 0;
+  transform: translate3d(-50%, 10px, 0);
+  cursor: pointer;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--white);
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reviews {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 4.5rem 2.5rem;
+  padding: 1.5rem;
+}
+
+.review__header {
+  position: relative;
+  padding: 0 1rem;
+}
+
+.review__header-btn {
+  position: absolute;
+  right: 40px;
+  bottom: 30px;
+  border: none;
+  outline: none;
+  width: 60px;
+  height: 60px;
+  background: transparent;
+}
+
+.review__img {
+  border-radius: 48% 52% 62% 38% / 38% 41% 59% 62%;
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+}
+
+.review__user {
+  text-transfrom: uppercase;
+  font-size: 36px;
+  font-weight: 600
+}
+
+.review__descript {
+  margin: 10px 0;
+  line-height: 20px;
+  color: rgb(66, 66, 66);
+  font-size: 14px;
+}
+
+.review__detail {
+  color: rgb(0, 78, 55);
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.review__icon {
+  height: 22px;
+  width: 22px;
+}
+
+.review__detail {
+  display: flex;
+}
+
+.review__product-rating {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+
+  svg {
+    margin-right: 4px;
+    height: 13px;
+    width: 13px;
+  }
+}
